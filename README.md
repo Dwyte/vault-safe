@@ -23,4 +23,9 @@ These Datas are then derived from these two fields.
 
 **Loging in,** auth, vaultKey and vault is saved locally.  
 **When the user updates the data**, it gets encrypted on the client before it's sent to the server.  
-**Logging out**, formats the localStorage.  
+**Logging out**, formats the localStorage. 
+
+
+![db-proot][proof]
+
+[proof]: https://github.com/Dwyte/vaultSafe/db-proof "mongodb-prreview"
