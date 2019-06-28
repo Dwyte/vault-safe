@@ -28,4 +28,4 @@ These Datas are then derived from these two fields.
 
 ![db-proot][proof]
 
-[proof]: https://github.com/Dwyte/vaultSafe/db-proof "mongodb-prreview"
+[proof]: https://github.com/Dwyte/vaultSafe/blob/master/db-proof.png "mongodb-prreview"
