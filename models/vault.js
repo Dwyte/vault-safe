@@ -5,8 +5,7 @@ const vaultSchema = mongoose.Schema({
   userHash: {
     type: String,
     minLength: 64,
-    maxLength: 64,
-    require: true
+    maxLength: 64
   },
   auth: {
     type: String,
@@ -17,7 +16,6 @@ const vaultSchema = mongoose.Schema({
   vault: {
     type: String,
     minLength: 44,
-    maxLength: 44,
     require: true
   }
 });
@@ -27,13 +25,12 @@ const Vault = mongoose.model("Vault", vaultSchema);
 const validate = vault => {
   const schema = {
     userHash: Joi.string()
-      .length(64)
-      .required(),
+      .length(64),
     auth: Joi.string()
       .length(64)
       .required(),
     vault: Joi.string()
-      .length(44)
+      .min(44)
       .required()
   };
 
