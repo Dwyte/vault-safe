@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="container">
-      <small>VaultSafe | About</small>
+      <small>VaultSafe | <a href="https://github.com/Dwyte/vaultSafe">About</a></small>
     </footer>
   );
 };
