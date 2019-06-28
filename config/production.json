@@ -1,0 +1,4 @@
+{
+    "name": "VaultSafe - Production",
+    "dbURL": "mongodb://localhost/VaultSafe"
+}

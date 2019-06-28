@@ -13,7 +13,9 @@ app.use(cors());
 // Mongoose
 const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.MONGODB_URI || config.get("dbURL"), { useNewUrlParser: true })
+  .connect("mongodb+srv://Dwyte:Sj69jXynx3QLWafT@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" || config.get("dbURL"), {
+    useNewUrlParser: true
+  })
   .then(() => log("Connected to MongoDB"))
   .catch(e => log(e));
 
@@ -50,14 +52,22 @@ app.put("/api/vaults/:auth", async (req, res) => {
   if (error) return res.status(400).send(error);
 
   let vault = await Vault.findOneAndUpdate({ auth: req.params.auth }, req.body);
-  if(!vault) return res.status(404).send("Vault not found");
-  
+  if (!vault) return res.status(404).send("Vault not found");
 
   vault = await vault.save();
   res.status(201).send(vault);
 });
 
+const path = require("path");
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build","index.html"));
+  });
+
+  console.log("_");
+}
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => log(`Connected to port ${port}`));
-
-
