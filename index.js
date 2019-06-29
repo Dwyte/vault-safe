@@ -13,9 +13,13 @@ app.use(cors());
 // Mongoose
 const mongoose = require("mongoose");
 mongoose
-  .connect("mongodb+srv://Dwyte:Sj69jXynx3QLWafT@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" || config.get("dbURL"), {
-    useNewUrlParser: true
-  })
+  .connect(
+    "mongodb+srv://Dwyte:rjw2N6pRXkFvbZsC@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" ||
+      config.get("dbURL"),
+    {
+      useNewUrlParser: true
+    }
+  )
   .then(() => log("Connected to MongoDB"))
   .catch(e => log(e));
 
@@ -58,12 +62,21 @@ app.put("/api/vaults/:auth", async (req, res) => {
   res.status(201).send(vault);
 });
 
+app.delete("/api/vaults/:auth", async (req, res) => {
+  const { auth } = req.params;
+
+  let vault = await Vault.findOneAndDelete({ auth });
+  if (!vault) return res.status(404).send("Vault not found");
+
+  res.status(200).send(vault);
+});
+
 const path = require("path");
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build","index.html"));
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
 
   console.log("_");

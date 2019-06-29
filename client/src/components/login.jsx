@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { getVault } from "../services/vaultServices";
 import CryptoJS from "crypto-js";
+import Link from "./common/link";
 const { SHA256 } = CryptoJS;
 
-const Login = (props) => {
+const Login = props => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,21 +17,20 @@ const Login = (props) => {
     try {
       const { data: vaultAccount } = await getVault(auth);
       const { vault } = vaultAccount;
-  
-      saveVault({auth, vaultKey, vault})
-  
+
+      saveVault({ auth, vaultKey, vault });
+
       window.location.replace("/vault");
-    }catch(ex){
+    } catch (ex) {
       alert("Vault not found");
     }
-
   };
 
-  const saveVault = (vault) => {
+  const saveVault = vault => {
     vault = JSON.stringify(vault);
 
-    localStorage.setItem('currentVault', vault);
-  }
+    localStorage.setItem("currentVault", vault);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -52,7 +52,8 @@ const Login = (props) => {
       />
 
       <input className="submit" type="submit" value="Open Vault" />
-      <a href="/register"><small>Don't have a vault yet?</small></a>
+
+      <Link href="/register" label="Don't have a vault yet?" />
     </form>
   );
 };

@@ -1,6 +1,6 @@
 import http from './httpServices';
 
-const endPoint = "/api/todos"
+const endPoint = "http://localhost:4200/api/todos"
 
 export async function getTodos(){
     return await http.get(endPoint);

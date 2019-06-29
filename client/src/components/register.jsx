@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import CryptoJS from "crypto-js";
-import nanoid from 'nanoid';
+import nanoid from "nanoid";
 import { postVault, validateUserHash } from "../services/vaultServices";
+import Link from "./common/link";
 const { SHA256, AES } = CryptoJS;
 
 const Register = props => {
@@ -15,14 +16,12 @@ const Register = props => {
     const { data: alreadyExists } = await validateUserHash(userHash);
     if (alreadyExists) return alert("Vault with username already exists.");
 
-
-
     const vaultKey = SHA256(userName + password).toString();
     const auth = SHA256(vaultKey + password).toString();
     const vault = AES.encrypt(
       JSON.stringify([
-        {_id: nanoid(8), title: "Welcome to VaultSafe"},
-        {_id: nanoid(8), title: "Your secrets are safe on the cloud!"}
+        { _id: nanoid(8), title: "Welcome to VaultSafe" },
+        { _id: nanoid(8), title: "Your secrets are safe on the cloud!" }
       ]),
       vaultKey
     ).toString();
@@ -62,7 +61,7 @@ const Register = props => {
       />
 
       <input className="submit" type="submit" value="Create Vault" />
-      <a href="/login"><small>Already have a vault?</small></a>
+      <Link href="/register" label="Already have a vault?" />
     </form>
   );
 };

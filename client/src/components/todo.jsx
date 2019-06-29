@@ -2,17 +2,41 @@ import React, { useState, useEffect } from "react";
 import TodoItem from "./todoItem";
 import TodoForm from "./todoForm";
 import CryptoJS from "crypto-js";
-import nanoid from 'nanoid';
-import { updateVault } from "../services/vaultServices";
+import nanoid from "nanoid";
+import { updateVault, deleteVault } from "../services/vaultServices";
+import Link from "./common/link";
+import _ from "lodash";
+import NavBar from "./common/navbar";
 const { AES } = CryptoJS;
 
-const Todo = (props) => {
+const Todo = props => {
   const [todos, setTodos] = useState([]);
+  const [filterIndex, setFilter] = useState(0);
+  const filters = [
+    { fa: "fas fa-globe-americas", filterMethod: null },
+    {
+      fa: "fas fa-star",
+      filterMethod: ({ favorite }) => {
+        return favorite;
+      }
+    },
+    {
+      fa: "fa fa-th-list",
+      filterMethod: ({ completed }) => {
+        return !completed;
+      }
+    },
+    {
+      fa: "fas fa-check-square",
+      filterMethod: ({ completed }) => {
+        return completed;
+      }
+    }
+  ];
+  const [sort, setSort] = useState("asc");
 
   useEffect(() => {
-    const { vault, vaultKey } = JSON.parse(
-      localStorage.getItem("currentVault")
-    );
+    const { vault, vaultKey } = getVaultData();
 
     // Decrypt & Parse
     const todos = JSON.parse(
@@ -22,10 +46,8 @@ const Todo = (props) => {
     setTodos(todos);
   }, []);
 
-  const saveVault = async (todos) => {
-    let { auth, vault, vaultKey } = JSON.parse(
-      localStorage.getItem("currentVault")
-    );
+  const saveVault = async todos => {
+    let { auth, vault, vaultKey } = getVaultData();
 
     vault = AES.encrypt(JSON.stringify(todos), vaultKey).toString();
 
@@ -38,24 +60,37 @@ const Todo = (props) => {
     } catch (ex) {
       alert(ex);
     }
-  }
+  };
+
+  const getVaultData = () => {
+    return JSON.parse(localStorage.getItem("currentVault"));
+  };
 
   const addTodo = title => {
     const todo = {
       _id: nanoid(8),
       title,
       completed: false
-    }
+    };
     const newTodos = [...todos, todo];
     setTodos(newTodos);
 
     saveVault(newTodos);
   };
 
-  const completeTodo = _id => {
+  const flipDoneTodo = _id => {
     const newTodos = [...todos];
     let todo = newTodos.find(t => t._id === _id);
-    todo.completed = true;
+    todo.completed = !todo.completed;
+    setTodos(newTodos);
+
+    saveVault(newTodos);
+  };
+
+  const favoriteTodo = _id => {
+    const newTodos = [...todos];
+    let todo = newTodos.find(t => t._id === _id);
+    todo.favorite = !todo.favorite;
     setTodos(newTodos);
 
     saveVault(newTodos);
@@ -70,22 +105,58 @@ const Todo = (props) => {
     saveVault(newTodos);
   };
 
-  const deleteVault = () => {
-    localStorage.removeItem('currentVault');
-  }
+  const exitVault = () => {
+    localStorage.removeItem("currentVault");
+  };
+
+  const deleteVaultFromDb = async e => {
+    e.preventDefault();
+
+    const { auth } = getVaultData();
+    try {
+      await deleteVault(auth);
+      exitVault();
+      alert("Vault succesfuly deleted from the database.");
+      window.location = "/";
+    } catch (ex) {
+      alert(ex);
+    }
+  };
+
+  const filtered = _.filter(todos, filters[filterIndex].filterMethod);
+
+  const sorted = _.orderBy(filtered, ["title"], [sort]);
+
+  const isAsc = sort === "asc";
 
   return (
     <React.Fragment>
-      {todos.map((todo, index) => (
+      <NavBar
+        filters={filters}
+        filterIndex={filterIndex}
+        isAsc={isAsc}
+        setFilter={setFilter}
+        setSort={setSort}
+      />
+
+      {sorted.map((todo, index) => (
         <TodoItem
           key={index}
           todo={todo}
-          completeTodo={completeTodo}
+          flipDoneTodo={flipDoneTodo}
+          favoriteTodo={favoriteTodo}
           removeTodo={removeTodo}
         />
       ))}
       <TodoForm addTodo={addTodo} />
-      <a onClick={deleteVault} href="/login"><small>Exit Vault</small></a>
+
+      <Link
+        className="float-right"
+        onClick={deleteVaultFromDb}
+        href="/login"
+        label="Delete Vault"
+      />
+      <Link onClick={exitVault} href="/login" label="Exit Vault" />
     </React.Fragment>
   );
 };

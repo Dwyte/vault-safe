@@ -32,8 +32,16 @@ footer {
   margin-bottom: 5px;
 }
 
+.float-right{
+  float: right;
+}
+
 button {
   border-radius: 4px;
+}
+
+button:hover{
+  cursor: pointer;
 }
 
 a {
@@ -65,4 +73,19 @@ a {
   box-shadow: 0;
   padding: 1rem;
   height: 2.25em;
+}
+
+.nav {
+  background: white;
+  border-radius: 4px;
+  padding: 3px;
+  margin-bottom: 5px;
+  display: inline-block;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.15);
+}
+
+.active {
+  background: #2b2b2b;
+  border: #2f2f2f 2px solid;
+  color: white;
 }

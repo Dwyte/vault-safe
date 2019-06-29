@@ -1,6 +1,6 @@
 import http from "./httpServices";
 
-const endpoint = "/api/vaults";
+const endpoint = "http://localhost:4200/api/vaults";
 
 export const postVault = async vault => {
   return await http.post(endpoint, vault);
@@ -16,4 +16,8 @@ export const getVault = async auth => {
 
 export const updateVault = async (auth, data) => {
   return await http.put(`${endpoint}/${auth}`, data);
+}
+
+export const deleteVault = async (auth) => {
+  return await http.delete(`${endpoint}/${auth}`);
 }
