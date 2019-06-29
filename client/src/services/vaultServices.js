@@ -1,6 +1,6 @@
 import http from "./httpServices";
 
-const endpoint = "http://localhost:4200/api/vaults";
+const endpoint = "/api/vaults";
 
 export const postVault = async vault => {
   return await http.post(endpoint, vault);
