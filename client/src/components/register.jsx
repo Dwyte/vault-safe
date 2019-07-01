@@ -61,7 +61,7 @@ const Register = props => {
       />
 
       <input className="submit" type="submit" value="Create Vault" />
-      <Link href="/register" label="Already have a vault?" />
+      <Link href="/login" label="Already have a vault?" />
     </form>
   );
 };

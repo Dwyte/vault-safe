@@ -1,4 +1,5 @@
 {
     "name": "VaultSafe - Development",
-    "dbURL": "mongodb://localhost/VaultSafe"
+    "dbURL": "mongodb://localhost/VaultSafe",
+    "jwtKey": "jwtKey"
 }

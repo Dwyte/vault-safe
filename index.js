@@ -23,56 +23,11 @@ mongoose
   .then(() => log("Connected to MongoDB"))
   .catch(e => log(e));
 
-const { Vault, validate } = require("./models/vault");
-
-app.get("/api/vaults/:userHash", async (req, res) => {
-  const { userHash } = req.params;
-  const vault = await Vault.findOne({ userHash });
-  res.send(Boolean(vault));
-});
-
-app.get("/api/vaults/get/:auth", async (req, res) => {
-  const { auth } = req.params;
-  const vault = await Vault.findOne({ auth });
-
-  if (!vault)
-    return res.status(404).send("Incorrect credentials, vault not found.");
-
-  res.send(vault);
-});
-
-app.post("/api/vaults", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error);
-
-  let vault = new Vault(req.body);
-  vault = await vault.save();
-
-  res.status(201).send(vault);
-});
-
-app.put("/api/vaults/:auth", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error);
-
-  let vault = await Vault.findOneAndUpdate({ auth: req.params.auth }, req.body);
-  if (!vault) return res.status(404).send("Vault not found");
-
-  vault = await vault.save();
-  res.status(201).send(vault);
-});
-
-app.delete("/api/vaults/:auth", async (req, res) => {
-  const { auth } = req.params;
-
-  let vault = await Vault.findOneAndDelete({ auth });
-  if (!vault) return res.status(404).send("Vault not found");
-
-  res.status(200).send(vault);
-});
+const vault = require("./routes/vaults");
+app.use("/api/vaults", vault)
 
 const path = require("path");
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {

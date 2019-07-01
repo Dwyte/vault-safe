@@ -1,4 +1,5 @@
 {
     "name": "VaultSafe - Production",
-    "dbURL": "mongodb://localhost/VaultSafe"
+    "dbURL": "mongodb://localhost/VaultSafe",
+    "jwtKey": "sKQEW125eoqlWEE0923ERBNMbc1ki8"
 }

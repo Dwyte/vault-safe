@@ -52,7 +52,7 @@ const Todo = props => {
     vault = AES.encrypt(JSON.stringify(todos), vaultKey).toString();
 
     try {
-      await updateVault(auth, { auth, vault });
+      await updateVault({ auth, vault });
       localStorage.setItem(
         "currentVault",
         JSON.stringify({ auth, vault, vaultKey })
@@ -106,15 +106,14 @@ const Todo = props => {
   };
 
   const exitVault = () => {
-    localStorage.removeItem("currentVault");
+    localStorage.clear();
   };
 
   const deleteVaultFromDb = async e => {
     e.preventDefault();
 
-    const { auth } = getVaultData();
     try {
-      await deleteVault(auth);
+      await deleteVault();
       exitVault();
       alert("Vault succesfuly deleted from the database.");
       window.location = "/";

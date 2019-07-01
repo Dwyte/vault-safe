@@ -14,10 +14,24 @@ export const getVault = async auth => {
   return await http.get(`${endpoint}/get/${auth}`);
 };
 
-export const updateVault = async (auth, data) => {
-  return await http.put(`${endpoint}/${auth}`, data);
-}
+export const updateVault = async (data) => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "x-auth-token": token
+    }
+  };
 
-export const deleteVault = async (auth) => {
-  return await http.delete(`${endpoint}/${auth}`);
-}
+  return await http.put(endpoint, data, config);
+};
+
+export const deleteVault = async () => {
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      "x-auth-token": token
+    }
+  };
+
+  return await http.delete(endpoint, config);
+};

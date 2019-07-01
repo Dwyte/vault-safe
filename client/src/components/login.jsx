@@ -15,10 +15,10 @@ const Login = props => {
     const auth = SHA256(vaultKey + password).toString();
 
     try {
-      const { data: vaultAccount } = await getVault(auth);
-      const { vault } = vaultAccount;
+      const { data: {token, vault} } = await getVault(auth);
 
       saveVault({ auth, vaultKey, vault });
+      localStorage.setItem('token', token);
 
       window.location.replace("/vault");
     } catch (ex) {

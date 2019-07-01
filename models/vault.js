@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 const vaultSchema = mongoose.Schema({
   userHash: {
@@ -22,6 +24,10 @@ const vaultSchema = mongoose.Schema({
 
 const Vault = mongoose.model("Vault", vaultSchema);
 
+const generateToken = (auth) => {
+  return jwt.sign({auth}, config.get("jwtKey"))
+}
+
 const validate = vault => {
   const schema = {
     userHash: Joi.string()
@@ -39,5 +45,6 @@ const validate = vault => {
 
 module.exports = {
   Vault,
-  validate
+  validate,
+  generateToken
 };
