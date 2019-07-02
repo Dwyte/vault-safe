@@ -27,7 +27,7 @@ const vault = require("./routes/vaults");
 app.use("/api/vaults", vault)
 
 const path = require("path");
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
