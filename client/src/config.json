@@ -1,0 +1,4 @@
+{
+    "apiEndpoint-production": "/api/vaults",
+    "apiEndpoint-development": "http://localhost:4200/api/vaults"
+}

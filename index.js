@@ -14,7 +14,7 @@ app.use(cors());
 const mongoose = require("mongoose");
 mongoose
   .connect(
-    "mongodb+srv://Dwyte:<password>@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" ||
+    "mongodb+srv://Dwyte:rjw2N6pRXkFvbZsC@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" ||
       config.get("dbURL"),
     {
       useNewUrlParser: true
@@ -37,5 +37,5 @@ if (process.env.NODE_ENV === "production") {
   console.log("_");
 }
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4200;
 app.listen(port, () => log(`Connected to port ${port}`));

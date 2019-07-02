@@ -3,15 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "5.0.1",
     "axios": "^0.19.0",
+    "config": "^3.1.0",
     "crypto-js": "^3.1.9-1",
     "lodash": "^4.17.11",
     "nanoid": "^2.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
-    "@fortawesome/fontawesome-free": "5.0.1"
+    "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

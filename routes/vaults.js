@@ -7,7 +7,9 @@ const auth = require("../middleware/auth");
 
 router.get("/:userHash", async (req, res) => {
   const { userHash } = req.params;
+
   const vault = await Vault.findOne({ userHash });
+
   res.send(Boolean(vault));
 });
 

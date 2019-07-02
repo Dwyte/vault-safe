@@ -6,6 +6,7 @@ const NavBar = ({ filters, filterIndex, isAsc, setFilter, setSort }) => {
     <div className="nav">
       {filters.map(filter => (
         <NavBtn
+          key={filters.indexOf(filter)}
           className={filters[filterIndex] === filter ? "active" : ""}
           onClick={() => setFilter(filters.indexOf(filter))}
           fa={filter.fa}

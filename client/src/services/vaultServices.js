@@ -1,6 +1,9 @@
 import http from "./httpServices";
+import config from "../config.json";
 
-const endpoint = "/api/vaults";
+const env = process.env.NODE_ENV || "development";
+
+const endpoint = config["apiEndpoint-" + env];
 
 export const postVault = async vault => {
   return await http.post(endpoint, vault);
@@ -14,7 +17,7 @@ export const getVault = async auth => {
   return await http.get(`${endpoint}/get/${auth}`);
 };
 
-export const updateVault = async (data) => {
+export const updateVault = async data => {
   const token = localStorage.getItem("token");
   const config = {
     headers: {
