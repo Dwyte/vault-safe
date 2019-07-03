@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Todo from "./components/todo.jsx";
+import Vault from "./components/vault";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/register";
@@ -16,7 +16,7 @@ const App = () => {
       <div className="container">
         {checkCurrVault() ? (
           <Switch>
-            <Route path="/vault" component={Todo} />
+            <Route path="/vault" component={Vault} />
             <Redirect from="/" to="/vault" />
           </Switch>
         ) : (

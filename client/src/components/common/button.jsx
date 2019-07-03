@@ -1,6 +1,6 @@
 import React from "react";
 
-const NavBtn = ({ className, onClick, fa }) => {
+const Button = ({ className, onClick, fa }) => {
   return (
     <React.Fragment>
       <button className={className} onClick={onClick}>
@@ -10,4 +10,4 @@ const NavBtn = ({ className, onClick, fa }) => {
   );
 };
 
-export default NavBtn;
+export default Button;

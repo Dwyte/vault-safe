@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import TodoItem from "./todoItem";
-import TodoForm from "./todoForm";
+import _ from "lodash";
 import CryptoJS from "crypto-js";
 import nanoid from "nanoid";
-import { updateVault, deleteVault } from "../services/vaultServices";
+import TodoItem from "./todoItem";
+import TodoForm from "./todoForm";
 import Link from "./common/link";
-import _ from "lodash";
 import NavBar from "./common/navbar";
+import { updateVault, deleteVault } from "../services/vaultServices";
+
 const { AES } = CryptoJS;
 
-const Todo = props => {
+const Vault = props => {
   const [todos, setTodos] = useState([]);
   const [filterIndex, setFilter] = useState(0);
   const filters = [
@@ -160,4 +161,4 @@ const Todo = props => {
   );
 };
 
-export default Todo;
+export default Vault;

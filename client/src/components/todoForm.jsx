@@ -17,9 +17,9 @@ const TodoForm = ({ addTodo }) => {
         className="input"
         placeholder="Enter anything, todos, notes, secrets, anything! (max 45)"
         maxLength="45"
-        autoFocus
         value={value}
         onChange={e => setValue(e.target.value)}
+        autoFocus
       />
     </form>
   );

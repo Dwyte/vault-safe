@@ -1,27 +1,26 @@
 import React from "react";
+import Button from "./common/button";
 
 const TodoItem = ({ todo, favoriteTodo, flipDoneTodo, removeTodo }) => {
   const textStyle = {
     textDecoration: todo.completed ? "line-through" : "none"
   };
 
-  const {_id, title, completed, favorite} = todo;
+  const { _id, title, completed, favorite } = todo;
 
   return (
     <div className="todo mb">
       <span style={textStyle}>{title}</span>
       <div>
-        <button onClick={() => flipDoneTodo(_id)}>
-          <i className={completed ? "fas fa-undo-alt" : "fas fa-check-square"} />
-        </button>
-        {" "}
-        <button onClick={() => favoriteTodo(_id)}>
-          <i className={favorite ? "fas fa-star" : "far fa-star"} />
-        </button>
-        {" "}
-        <button onClick={() => removeTodo(_id)}>
-          <i className="fas fa-trash" />
-        </button>
+        <Button
+          fa={completed ? "fas fa-undo-alt" : "fas fa-check-square"}
+          onClick={() => flipDoneTodo(_id)}
+        />
+        <Button
+          fa={favorite ? "fas fa-star" : "far fa-star"}
+          onClick={() => favoriteTodo(_id)}
+        />
+        <Button fa="fas fa-trash" onClick={() => removeTodo(_id)} />
       </div>
     </div>
   );
