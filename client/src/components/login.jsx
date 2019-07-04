@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { getVault } from "../services/vaultServices";
 import CryptoJS from "crypto-js";
 import Link from "./common/link";
+import UserForm from "./common/userForm";
 const { SHA256 } = CryptoJS;
 
 const Login = props => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async e => {
+  const submitUserForm = async e => {
     e.preventDefault();
 
     const vaultKey = SHA256(userName + password).toString();
@@ -33,28 +34,17 @@ const Login = props => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="input mb"
-        placeholder="Username"
-        value={userName}
-        onChange={e => setUserName(e.target.value)}
-        autoFocus
+    <React.Fragment>
+      <UserForm 
+        submitUserForm={submitUserForm}
+        userName={userName}
+        setUserName={setUserName}
+        password={password}
+        setPassword={setPassword}
+        submitLabel="Open Vault"
       />
-
-      <input
-        type="password"
-        className="input mb"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-
-      <input className="submit" type="submit" value="Open Vault" />
-
-      <Link href="/register" label="Don't have a vault yet?" />
-    </form>
+       <Link href="/register" label="Don't have a vault yet?" />
+    </React.Fragment>
   );
 };
 

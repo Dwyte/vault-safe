@@ -71,8 +71,8 @@ a {
   border: 0;
   border-radius: 4px;
   box-shadow: 0;
-  padding: 10px;
-  height: 2em;
+  padding: 1rem;
+  height: 2.25em;
 }
 
 .nav {
@@ -88,4 +88,8 @@ a {
   background: #2b2b2b;
   border: #2f2f2f 2px solid;
   color: white;
+}
+
+.small {
+  font-size: 12px;
 }

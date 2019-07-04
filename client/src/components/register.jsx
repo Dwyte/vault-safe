@@ -3,13 +3,14 @@ import CryptoJS from "crypto-js";
 import nanoid from "nanoid";
 import { postVault, validateUserHash } from "../services/vaultServices";
 import Link from "./common/link";
+import UserForm from "./common/userForm";
 const { SHA256, AES } = CryptoJS;
 
 const Register = props => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async e => {
+  const submitUserForm = async e => {
     e.preventDefault();
 
     const userHash = SHA256(userName).toString();
@@ -42,27 +43,17 @@ const Register = props => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        className="input mb"
-        placeholder="Username"
-        value={userName}
-        onChange={e => setUserName(e.target.value)}
-        autoFocus
+    <React.Fragment>
+      <UserForm 
+        submitUserForm={submitUserForm}
+        userName={userName}
+        setUserName={setUserName}
+        password={password}
+        setPassword={setPassword}
+        submitLabel="Create Vault"
       />
-
-      <input
-        type="password"
-        className="input mb"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      />
-
-      <input className="submit" type="submit" value="Create Vault" />
-      <Link href="/login" label="Already have a vault?" />
-    </form>
+       <Link href="/login" label="Already have a vault?" />
+    </React.Fragment> 
   );
 };
 
