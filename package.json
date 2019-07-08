@@ -16,7 +16,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-start": "cd client && npm run build && cd .. && nodemon",
+    "build-start": "cd client && npm run build && cd .. && export NODE_ENV=production && nodemon",
     "start": "node index.js",
     "heroku-postbuild": "cd client && npm install && npm run build",
     "push-heroku": "git push heroku master",

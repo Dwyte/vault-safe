@@ -6,6 +6,16 @@ import Link from "./common/link";
 import UserForm from "./common/userForm";
 const { SHA256, AES } = CryptoJS;
 
+const SHA256Iteration = (data, iteration) => {
+  for (let i = 0; i < iteration; i++) {
+    data = SHA256(data);
+  }
+
+  return data;
+};
+
+const hashIteration = 100000;
+
 const Register = props => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -13,12 +23,12 @@ const Register = props => {
   const submitUserForm = async e => {
     e.preventDefault();
 
-    const userHash = SHA256(userName).toString();
+    const userHash = SHA256Iteration(userName, hashIteration).toString();
     const { data: alreadyExists } = await validateUserHash(userHash);
     if (alreadyExists) return alert("Vault with username already exists.");
 
-    const vaultKey = SHA256(userName + password).toString();
-    const auth = SHA256(vaultKey + password).toString();
+    const vaultKey = SHA256Iteration(userName + password, hashIteration).toString();
+    const auth = SHA256Iteration(vaultKey + password, hashIteration).toString();
     const vault = AES.encrypt(
       JSON.stringify([
         { _id: nanoid(8), title: "Welcome to VaultSafe" },
@@ -44,7 +54,7 @@ const Register = props => {
 
   return (
     <React.Fragment>
-      <UserForm 
+      <UserForm
         submitUserForm={submitUserForm}
         userName={userName}
         setUserName={setUserName}
@@ -52,8 +62,8 @@ const Register = props => {
         setPassword={setPassword}
         submitLabel="Create Vault"
       />
-       <Link href="/login" label="Already have a vault?" />
-    </React.Fragment> 
+      <Link href="/login" label="Already have a vault?" />
+    </React.Fragment>
   );
 };
 

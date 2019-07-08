@@ -14,7 +14,7 @@ app.use(cors());
 const mongoose = require("mongoose");
 mongoose
   .connect(
-    "mongodb+srv://Dwyte:rjw2N6pRXkFvbZsC@cs21-2evw6.mongodb.net/test?retryWrites=true&w=majority" ||
+    "mongodb+srv://Dwyte:rjw2N6pRXkFvbZsC@cs21-2evw6.mongodb.net/VaultSafe?retryWrites=true&w=majority" ||
       config.get("dbURL"),
     {
       useNewUrlParser: true

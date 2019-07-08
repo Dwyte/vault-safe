@@ -5,6 +5,16 @@ import Link from "./common/link";
 import UserForm from "./common/userForm";
 const { SHA256 } = CryptoJS;
 
+const SHA256Iteration = (data, iteration) => {
+  for (let i = 0; i < iteration; i++) {
+    data = SHA256(data);
+  }
+
+  return data;
+};
+
+const hashIteration = 100000;
+
 const Login = props => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -12,14 +22,19 @@ const Login = props => {
   const submitUserForm = async e => {
     e.preventDefault();
 
-    const vaultKey = SHA256(userName + password).toString();
-    const auth = SHA256(vaultKey + password).toString();
+    const vaultKey = SHA256Iteration(
+      userName + password,
+      hashIteration
+    ).toString();
+    const auth = SHA256Iteration(vaultKey + password, hashIteration).toString();
 
     try {
-      const { data: {token, vault} } = await getVault(auth);
+      const {
+        data: { token, vault }
+      } = await getVault(auth);
 
       saveVault({ auth, vaultKey, vault });
-      localStorage.setItem('token', token);
+      localStorage.setItem("token", token);
 
       window.location.replace("/vault");
     } catch (ex) {
@@ -35,7 +50,7 @@ const Login = props => {
 
   return (
     <React.Fragment>
-      <UserForm 
+      <UserForm
         submitUserForm={submitUserForm}
         userName={userName}
         setUserName={setUserName}
@@ -43,7 +58,7 @@ const Login = props => {
         setPassword={setPassword}
         submitLabel="Open Vault"
       />
-       <Link href="/register" label="Don't have a vault yet?" />
+      <Link href="/register" label="Don't have a vault yet?" />
     </React.Fragment>
   );
 };
