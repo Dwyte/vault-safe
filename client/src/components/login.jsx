@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import { getVault } from "../services/vaultServices";
-import CryptoJS from "crypto-js";
 import Link from "./common/link";
 import UserForm from "./common/userForm";
-const { SHA256 } = CryptoJS;
+import pbkdf2 from "pbkdf2";
 
-const SHA256Iteration = (data, iteration) => {
-  for (let i = 0; i < iteration; i++) {
-    data = SHA256(data);
-  }
+const PBKDF2 = (data, salt = "$2b$31$ZVHSM/d7RoeuOkx3IQc0iu") => {
+  const hash = pbkdf2.pbkdf2Sync(data, salt, 5000, 64, "sha512");
 
-  return data;
+  return hash.toString("hex");
 };
-
-const hashIteration = 100000;
 
 const Login = props => {
   const [userName, setUserName] = useState("");
@@ -22,11 +17,8 @@ const Login = props => {
   const submitUserForm = async e => {
     e.preventDefault();
 
-    const vaultKey = SHA256Iteration(
-      userName + password,
-      hashIteration
-    ).toString();
-    const auth = SHA256Iteration(vaultKey + password, hashIteration).toString();
+    const vaultKey = PBKDF2(userName + password).toString();
+    const auth = PBKDF2(vaultKey + password).toString();
 
     try {
       const {

@@ -3,18 +3,15 @@ import CryptoJS from "crypto-js";
 import nanoid from "nanoid";
 import { postVault, validateUserHash } from "../services/vaultServices";
 import Link from "./common/link";
+import pbkdf2 from "pbkdf2";
 import UserForm from "./common/userForm";
-const { SHA256, AES } = CryptoJS;
+const { AES } = CryptoJS;
 
-const SHA256Iteration = (data, iteration) => {
-  for (let i = 0; i < iteration; i++) {
-    data = SHA256(data);
-  }
+const PBKDF2 = (data, salt = "$2b$31$ZVHSM/d7RoeuOkx3IQc0iu") => {
+  const hash = pbkdf2.pbkdf2Sync(data, salt, 5000, 64, "sha512");
 
-  return data;
+  return hash.toString('hex');
 };
-
-const hashIteration = 100000;
 
 const Register = props => {
   const [userName, setUserName] = useState("");
@@ -23,12 +20,13 @@ const Register = props => {
   const submitUserForm = async e => {
     e.preventDefault();
 
-    const userHash = SHA256Iteration(userName, hashIteration).toString();
+    const userHash = PBKDF2(userName).toString();
     const { data: alreadyExists } = await validateUserHash(userHash);
     if (alreadyExists) return alert("Vault with username already exists.");
 
-    const vaultKey = SHA256Iteration(userName + password, hashIteration).toString();
-    const auth = SHA256Iteration(vaultKey + password, hashIteration).toString();
+    const vaultKey = PBKDF2(userName + password).toString();
+    const auth = PBKDF2(vaultKey + password).toString();
+
     const vault = AES.encrypt(
       JSON.stringify([
         { _id: nanoid(8), title: "Welcome to VaultSafe" },

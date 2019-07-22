@@ -5,14 +5,10 @@ const config = require("config");
 
 const vaultSchema = mongoose.Schema({
   userHash: {
-    type: String,
-    minLength: 64,
-    maxLength: 64
+    type: String
   },
   auth: {
     type: String,
-    minLength: 64,
-    maxLength: 64,
     require: true
   },
   vault: {
@@ -24,17 +20,14 @@ const vaultSchema = mongoose.Schema({
 
 const Vault = mongoose.model("Vault", vaultSchema);
 
-const generateToken = (auth) => {
-  return jwt.sign({auth}, config.get("jwtKey"))
-}
+const generateToken = auth => {
+  return jwt.sign({ auth }, config.get("jwtKey"));
+};
 
 const validate = vault => {
   const schema = {
-    userHash: Joi.string()
-      .length(64),
-    auth: Joi.string()
-      .length(64)
-      .required(),
+    userHash: Joi.string(),
+    auth: Joi.string().required(),
     vault: Joi.string()
       .min(44)
       .required()

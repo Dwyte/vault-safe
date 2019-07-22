@@ -17,8 +17,6 @@ router.get("/get/:auth", async (req, res) => {
   const { auth } = req.params;
   const _vault = await Vault.findOne({ auth });
 
-    console.log(_vault, auth);
-
   if (!_vault)
     return res.status(404).send("Incorrect credentials, vault not found.");
 
