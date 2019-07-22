@@ -1,8 +1,8 @@
 import http from "./httpServices";
 
 
-const server = process.env.REACT_APP_SERVER_URL || "http://localhost:4200";
-const endpoint = server + "/api/vaults";
+const server = process.env.REACT_APP_SERVER_URL || "http://localhost:4200/";
+const endpoint = server + "api/vaults";
 
 export const postVault = async vault => {
   return await http.post(endpoint, vault);
